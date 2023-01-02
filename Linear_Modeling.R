@@ -28,8 +28,7 @@ ggplot(data = sim_data_2, aes(x = x2, y = y2)) +
 # Feature selection
 
 set.seed(155)
-
-train_kfold <- trainControl(method = 'repeatedcv', number = 5, repeats = 1)
+train_kfold <- trainControl(method = 'cv', number = 5)
 
 lm_d1 <- train(crimes ~ factor(year) + factor(month) + white + latino + asian + age + pop + hsol + nilf + male + log(area_kmsq) + pop_density + poverty, 
             data = data, 
@@ -104,8 +103,7 @@ mae(lm_log_g$trainingData$crimes, exp(lm_log_g$finalModel$fitted.values))
 # Linear regressions
 
 set.seed(155)
-
-train_kfold <- trainControl(method = 'repeatedcv', number = 5, repeats = 1)
+train_kfold <- trainControl(method = 'cv', number = 5)
 
 model_d1 <- train(crimes ~ factor(year) + factor(month) + black + latino + asian + age + pop + hsol + nilf + male + log(area_kmsq) + pop_density + poverty, 
                data = data, 
