@@ -77,12 +77,14 @@ print(tree_g2)
 
 # Gradient boosting
 
-grid <- expand.grid(nrounds = seq(from = 200, to = 1000, by = 50),
-                    eta = 0.1,
-                    max_depth = c(5, 8, 11, 14),
-                    gamma = 0,
-                    colsample_bytree = 1,
-                    min_child_weight = 1,
+set.seed(155)
+train_kfold <- trainControl(method = 'cv', number = 5)
+grid <- expand.grid(nrounds = seq(from = 200, to = 1000, by = 50), 
+                    eta = 0.1, 
+                    max_depth = c(5, 8, 11, 14), 
+                    gamma = 0, 
+                    colsample_bytree = 1, 
+                    min_child_weight = 1, 
                     subsample = 1)
 
 xgb_d1 <- train(crimes ~ factor(year) + factor(month) + black + latino + asian + age + pop + hsol + nilf + male + log(area_kmsq) + pop_density + poverty, 
@@ -100,6 +102,28 @@ xgb_d2 <- train(crimes ~ factor(year) + factor(month) + black + latino + pop + h
                tuneGrid = grid)
 
 print(xgb_d2)
+
+xgb_log_d1 <- train(log(crimes + 0.1) ~ factor(year) + factor(month) + black + latino + asian + age + pop + hsol + nilf + male + log(area_kmsq) + pop_density + poverty, 
+               data = data, 
+               method = 'xgbTree', 
+               trControl = train_kfold, 
+               tuneGrid = grid)
+
+print(xgb_log_d1)
+
+rmse(xgb_log_d1$trainingData$crimes, exp(predict(xgb_log_d1, xgb_log_d1$trainingData)))
+mae(xgb_log_d1$trainingData$crimes, exp(predict(xgb_log_d1, xgb_log_d1$trainingData)))
+
+xgb_log_d2 <- train(log(crimes + 0.1) ~ factor(year) + factor(month) + black + latino + asian + age + pop + hsol + log(area_kmsq) + poverty, 
+               data = data, 
+               method = 'xgbTree', 
+               trControl = train_kfold, 
+               tuneGrid = grid)
+
+print(xgb_log_d2)
+
+rmse(xgb_log_d2$trainingData$crimes, exp(predict(xgb_log_d2, xgb_log_d2$trainingData)))
+mae(xgb_log_d2$trainingData$crimes, exp(predict(xgb_log_d2, xgb_log_d2$trainingData)))
 
 xgb_u1 <- train(crimes ~ factor(year) + factor(month) + airport + bar + food + university + school + library + parking_lot + bank + hospital + healthcare_professional + pharmacy + social_center + theater + club + law_enforcement + fire_station + church + industrial + military + cemetery + park + indoor_sport + outdoor_sport + golf + office + station + liquor_store + food_and_beverages + mall + clothing + health_and_beauty + DIY + furniture + electronics + car_related_shops + art_and_hobbies + books_and_gifts + tourist_attraction + tourist_accommodation, 
                data = data, 
@@ -135,6 +159,12 @@ print(xgb_g2)
 
 
 # Random forests
+
+set.seed(155)
+train_kfold <- trainControl(method = 'cv', number = 5)
+grid <- expand.grid(mtry = c(), 
+                    splitrule = 'gini', 
+                    min.node.size = c(1, 3, 5))
 
 rf_d1 <- train(crimes ~ factor(year) + factor(month) + black + latino + asian + age + pop + hsol + nilf + male + log(area_kmsq) + pop_density + poverty, 
                data = data, 
