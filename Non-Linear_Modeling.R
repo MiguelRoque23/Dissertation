@@ -77,45 +77,59 @@ print(tree_g2)
 
 # Gradient boosting
 
+grid <- expand.grid(nrounds = seq(from = 200, to = 1000, by = 50),
+                    eta = 0.1,
+                    max_depth = c(5, 8, 11, 14),
+                    gamma = 0,
+                    colsample_bytree = 1,
+                    min_child_weight = 1,
+                    subsample = 1)
+
 xgb_d1 <- train(crimes ~ factor(year) + factor(month) + black + latino + asian + age + pop + hsol + nilf + male + log(area_kmsq) + pop_density + poverty, 
                data = data, 
                method = 'xgbTree', 
-               trControl = train_kfold)
+               trControl = train_kfold, 
+               tuneGrid = grid)
 
 print(xgb_d1)
 
 xgb_d2 <- train(crimes ~ factor(year) + factor(month) + black + latino + pop + hsol + nilf + male + log(area_kmsq) + poverty, 
                data = data, 
                method = 'xgbTree', 
-               trControl = train_kfold)
+               trControl = train_kfold, 
+               tuneGrid = grid)
 
 print(xgb_d2)
 
 xgb_u1 <- train(crimes ~ factor(year) + factor(month) + airport + bar + food + university + school + library + parking_lot + bank + hospital + healthcare_professional + pharmacy + social_center + theater + club + law_enforcement + fire_station + church + industrial + military + cemetery + park + indoor_sport + outdoor_sport + golf + office + station + liquor_store + food_and_beverages + mall + clothing + health_and_beauty + DIY + furniture + electronics + car_related_shops + art_and_hobbies + books_and_gifts + tourist_attraction + tourist_accommodation, 
                data = data, 
                method = 'xgbTree', 
-               trControl = train_kfold)
+               trControl = train_kfold, 
+               tuneGrid = grid)
 
 print(xgb_u1)
 
 xgb_u2 <- train(crimes ~ factor(year) + factor(month) + food + university + school + library + parking_lot + bank + social_center + club + law_enforcement + church + cemetery + indoor_sport + station + food_and_beverages + mall + clothing + health_and_beauty + DIY + art_and_hobbies + books_and_gifts + tourist_attraction + tourist_accommodation, 
                data = data, 
                method = 'xgbTree', 
-               trControl = train_kfold)
+               trControl = train_kfold, 
+               tuneGrid = grid)
 
 print(xgb_u2)
 
 xgb_g1 <- train(crimes ~ factor(year) + factor(month) + black + latino + asian + age + pop + hsol + nilf + male + log(area_kmsq) + pop_density + poverty + airport + bar + food + university + school + library + parking_lot + bank + hospital + healthcare_professional + pharmacy + social_center + theater + club + law_enforcement + fire_station + church + industrial + military + cemetery + park + indoor_sport + outdoor_sport + golf + office + station + liquor_store + food_and_beverages + mall + clothing + health_and_beauty + DIY + furniture + electronics + car_related_shops + art_and_hobbies + books_and_gifts + tourist_attraction + tourist_accommodation, 
                data = data, 
                method = 'xgbTree', 
-               trControl = train_kfold)
+               trControl = train_kfold, 
+               tuneGrid = grid)
 
 print(xgb_g1)
 
 xgb_g2 <- train(crimes ~ factor(year) + factor(month) + black + latino + asian + pop + hsol + pop_density + poverty + food + university + school + library + parking_lot + bank + hospital + pharmacy + social_center + club + law_enforcement + church + cemetery + park + station + food_and_beverages + mall + clothing + health_and_beauty + DIY + electronics + car_related_shops + books_and_gifts + tourist_attraction + tourist_accommodation, 
                data = data, 
                method = 'xgbTree', 
-               trControl = train_kfold)
+               trControl = train_kfold, 
+               tuneGrid = grid)
 
 print(xgb_g2)
 
@@ -125,41 +139,47 @@ print(xgb_g2)
 rf_d1 <- train(crimes ~ factor(year) + factor(month) + black + latino + asian + age + pop + hsol + nilf + male + log(area_kmsq) + pop_density + poverty, 
                data = data, 
                method = 'ranger', 
-               trControl = train_kfold)
+               trControl = train_kfold, 
+               tuneGrid = grid)
 
 print(rf_d1)
 
 rf_d2 <- train(crimes ~ factor(year) + factor(month) + black + latino + pop + hsol + nilf + male + log(area_kmsq) + poverty, 
                data = data, 
                method = 'ranger', 
-               trControl = train_kfold)
+               trControl = train_kfold, 
+               tuneGrid = grid)
 
 print(rf_d2)
 
 rf_u1 <- train(crimes ~ factor(year) + factor(month) + airport + bar + food + university + school + library + parking_lot + bank + hospital + healthcare_professional + pharmacy + social_center + theater + club + law_enforcement + fire_station + church + industrial + military + cemetery + park + indoor_sport + outdoor_sport + golf + office + station + liquor_store + food_and_beverages + mall + clothing + health_and_beauty + DIY + furniture + electronics + car_related_shops + art_and_hobbies + books_and_gifts + tourist_attraction + tourist_accommodation, 
                data = data, 
                method = 'ranger', 
-               trControl = train_kfold)
+               trControl = train_kfold, 
+               tuneGrid = grid)
 
 print(rf_u1)
 
 rf_u2 <- train(crimes ~ factor(year) + factor(month) + food + university + school + library + parking_lot + bank + social_center + club + law_enforcement + church + cemetery + indoor_sport + station + food_and_beverages + mall + clothing + health_and_beauty + DIY + art_and_hobbies + books_and_gifts + tourist_attraction + tourist_accommodation, 
                data = data, 
                method = 'ranger', 
-               trControl = train_kfold)
+               trControl = train_kfold, 
+               tuneGrid = grid)
 
 print(rf_u2)
 
 rf_g1 <- train(crimes ~ factor(year) + factor(month) + black + latino + asian + age + pop + hsol + nilf + male + log(area_kmsq) + pop_density + poverty + airport + bar + food + university + school + library + parking_lot + bank + hospital + healthcare_professional + pharmacy + social_center + theater + club + law_enforcement + fire_station + church + industrial + military + cemetery + park + indoor_sport + outdoor_sport + golf + office + station + liquor_store + food_and_beverages + mall + clothing + health_and_beauty + DIY + furniture + electronics + car_related_shops + art_and_hobbies + books_and_gifts + tourist_attraction + tourist_accommodation, 
                data = data, 
                method = 'ranger', 
-               trControl = train_kfold)
+               trControl = train_kfold, 
+               tuneGrid = grid)
 
 print(rf_g1)
 
 rf_g2 <- train(crimes ~ factor(year) + factor(month) + black + latino + asian + pop + hsol + pop_density + poverty + food + university + school + library + parking_lot + bank + hospital + pharmacy + social_center + club + law_enforcement + church + cemetery + park + station + food_and_beverages + mall + clothing + health_and_beauty + DIY + electronics + car_related_shops + books_and_gifts + tourist_attraction + tourist_accommodation, 
                data = data, 
                method = 'ranger', 
-               trControl = train_kfold)
+               trControl = train_kfold, 
+               tuneGrid = grid)
 
 print(rf_g2)
