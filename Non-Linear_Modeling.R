@@ -162,15 +162,16 @@ print(xgb_g2)
 
 set.seed(155)
 train_kfold <- trainControl(method = 'cv', number = 5)
-grid <- expand.grid(mtry = c(3, 5, 7), 
+grid <- expand.grid(mtry = c(5, 10, 15), 
                     splitrule = 'variance', 
-                    min.node.size = c(1, 3, 5))
+                    min.node.size = c(10, 25, 50))
 
 rf_d1 <- train(crimes ~ factor(year) + factor(month) + black + latino + asian + age + pop + hsol + nilf + male + log(area_kmsq) + pop_density + poverty, 
                data = data, 
                method = 'ranger', 
                trControl = train_kfold, 
-               tuneGrid = grid)
+               tuneGrid = grid, 
+               num.trees = 500)
 
 print(rf_d1)
 
@@ -178,7 +179,8 @@ rf_d2 <- train(crimes ~ factor(year) + factor(month) + black + latino + pop + hs
                data = data, 
                method = 'ranger', 
                trControl = train_kfold, 
-               tuneGrid = grid)
+               tuneGrid = grid, 
+               num.trees = 500)
 
 print(rf_d2)
 
@@ -186,7 +188,8 @@ rf_log_d1 <- train(log(crimes + 0.1) ~ factor(year) + factor(month) + black + la
                data = data, 
                method = 'ranger', 
                trControl = train_kfold, 
-               tuneGrid = grid)
+               tuneGrid = grid, 
+               num.trees = 500)
 
 print(rf_log_d1)
 
@@ -197,7 +200,8 @@ rf_log_d2 <- train(log(crimes + 0.1) ~ factor(year) + factor(month) + black + la
                data = data, 
                method = 'ranger', 
                trControl = train_kfold, 
-               tuneGrid = grid)
+               tuneGrid = grid, 
+               num.trees = 500)
 
 print(rf_log_d2)
 
@@ -208,7 +212,8 @@ rf_u1 <- train(crimes ~ factor(year) + factor(month) + airport + bar + food + un
                data = data, 
                method = 'ranger', 
                trControl = train_kfold, 
-               tuneGrid = grid)
+               tuneGrid = grid, 
+               num.trees = 500)
 
 print(rf_u1)
 
@@ -216,7 +221,8 @@ rf_u2 <- train(crimes ~ factor(year) + factor(month) + food + university + schoo
                data = data, 
                method = 'ranger', 
                trControl = train_kfold, 
-               tuneGrid = grid)
+               tuneGrid = grid, 
+               num.trees = 500)
 
 print(rf_u2)
 
@@ -224,7 +230,8 @@ rf_g1 <- train(crimes ~ factor(year) + factor(month) + black + latino + asian + 
                data = data, 
                method = 'ranger', 
                trControl = train_kfold, 
-               tuneGrid = grid)
+               tuneGrid = grid, 
+               num.trees = 500)
 
 print(rf_g1)
 
@@ -232,6 +239,7 @@ rf_g2 <- train(crimes ~ factor(year) + factor(month) + black + latino + asian + 
                data = data, 
                method = 'ranger', 
                trControl = train_kfold, 
-               tuneGrid = grid)
+               tuneGrid = grid, 
+               num.trees = 500)
 
 print(rf_g2)
